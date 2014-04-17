@@ -13,16 +13,15 @@ var speakable = new Speakable();
 var client = new MsTranslator({client_id: client_id, client_secret: client_secret});
 
 speakable.on('speechStart', function() {
-  console.log('onSpeechStart');
+  console.log('Speech Started');
 });
 
 speakable.on('speechStop', function() {
-  console.log('onSpeechStop');
+  console.log('Speech Ended');
   speakable.recordVoice();
 });
 
 speakable.on('speechReady', function() {
-  console.log('onSpeechReady');
 });
 
 speakable.on('error', function(err) {
@@ -32,7 +31,13 @@ speakable.on('error', function(err) {
 });
 
 speakable.on('speechResult', function(spokenWords) {
-  console.log('onSpeechResult:');
+  console.log('Translating…');
+  
+  if (spokenWords.length == 0) {
+    console.log('No words detected.');
+    return;
+  }
+  
   var str = spokenWords.join(' ');
   var params = {
     text: str,
@@ -40,23 +45,10 @@ speakable.on('speechResult', function(spokenWords) {
     to: 'fr'
   };
   console.log(str);
-  
   client.initialize_token(function(){
     client.translate(params, function(err, data) {
       if (err) console.log('error:' + err);
       console.log(data);
-    });
-    client.getLanguagesForTranslate(function(err, data) {
-      if (err) console.log('error:' + err);
-      console.log(data);
-      var options = {
-        locale: 'en',
-      languageCodes: data
-      };
-      client.getLanguageNames(options, function(err, data) {
-        if (err) console.log('error:' + err);
-        console.log(data);
-      });
     });
   });
 });
