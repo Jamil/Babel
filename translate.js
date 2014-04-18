@@ -13,11 +13,11 @@ var speakable = new Speakable();
 var client = new MsTranslator({client_id: client_id, client_secret: client_secret});
 
 speakable.on('speechStart', function() {
-  console.log('Speech Started');
+//console.log('Speech Started');
 });
 
 speakable.on('speechStop', function() {
-  console.log('Speech Ended');
+//console.log('Speech Ended');
   speakable.recordVoice();
 });
 
@@ -31,7 +31,6 @@ speakable.on('error', function(err) {
 });
 
 speakable.on('speechResult', function(spokenWords) {
-  console.log('Translating…');
   
   if (spokenWords.length == 0) {
     console.log('No words detected.');
@@ -44,7 +43,7 @@ speakable.on('speechResult', function(spokenWords) {
     from: 'en',
     to: 'fr'
   };
-  console.log(str);
+//console.log(str);
   client.initialize_token(function(){
     client.translate(params, function(err, data) {
       if (err) console.log('error:' + err);
