@@ -14,11 +14,11 @@ var speakable = new Speakable({key: google_api_key});
 var client = new MsTranslator({client_id: client_id, client_secret: client_secret});
 
 speakable.on('speechStart', function() {
-//console.log('Speech Started');
+  console.log('Speech started');
 });
 
 speakable.on('speechStop', function() {
-//console.log('Speech Ended');
+  console.log('Speech stopped... posting data')
   speakable.recordVoice();
 });
 
@@ -45,7 +45,7 @@ speakable.on('speechResult', function(spokenWords) {
     to: 'fr'
   };
   
-  console.log(str);
+  console.log('Original: ' + str);
 
   client.initialize_token(function(){
     client.translate(params, function(err, data) {
